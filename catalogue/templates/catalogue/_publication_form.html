@@ -1,0 +1,70 @@
+{% load getattribute %} 
+
+<table class="table table-borderless" id="form_table">
+	<tr class="d-flex">
+		<th class="col-2">Title</th>
+		<td class="col-8">{{form.title}}</td>
+	</tr>
+	<tr class="d-flex">
+		<th class="col-2">Type</th>
+		<td class="col-8">{{form.form}}</td>
+		{% if request.user|has_group:"typemaster" %}
+			<td><a class = "btn btn-link btn-sm ml-auto" target = "_blank"
+				href ="{% url 'catalogue:add_publication_type'%}" role="button">
+				 <i class="fa fa-plus"></i></a>
+			</td>
+		{% endif %}
+	</tr>
+	<tr class="d-flex">
+		<th class="col-2">Publisher</th>
+		<td class="col-8">{{form.publisher}}</td>
+			<td><a class = "btn btn-link btn-sm ml-auto" target = "_blank"
+				href ="{% url 'catalogue:add_publisher' 'inline' %}" role="button">
+				 <i class="fa fa-plus"></i></a>
+			</td>
+	</tr>
+	<tr class="d-flex">
+		<th class="col-2">Date</th>
+		<td class="col-8">{{form.date}}</td>
+	</tr>
+	<tr class="d-flex">
+		<th class="col-2">Location</th>
+		<td class="col-8">{{form.location}}</td>
+			<td><a class = "btn btn-link btn-sm ml-auto" target = "_blank"
+				href ="{% url 'locations:add_location' 'inline' %}" 
+				role="button"><i class="fa fa-plus"></i></a>
+			</td>
+	</tr>
+	<tr class="d-flex">
+		<th class="col-2">Volume</th>
+		<td class="col-3">{{form.volume}}</td>
+		<th class="col-2">Issue</th>
+		<td class="col-3">{{form.issue}}</td>
+	</tr>
+	<tr class="d-flex">
+		<th class="col-2">pdf</th>
+		<td class="col-3">{{form.pdf}}</td>
+		<th class="col-2">Cover</th>
+		<td class="col-3">{{form.cover}}</td>
+	</tr>
+	<tr class="d-flex">
+		<th class="col-2">Source link</th>
+		<td class="col-8">{{form.source_link}} {{form.source_link.error}}</td>
+	</tr>
+	<tr class="d-flex">
+		<th class="col-2">Copyright</th>
+		<td class="col-8">{{form.copyright}} {{form.copyright.error}}</td>
+			<td><a class = "btn btn-link btn-sm ml-auto" target = "_blank"
+				href ="{% url 'catalogue:add_copy_right' %}" 
+				role="button"><i class="fa fa-plus"></i></a>
+			</td>
+	</tr>
+	<tr class="d-flex">
+		<th class="col-2">Use permission</th>
+		<td class="col-8">{{form.use_permission}} {{form.use_permission.error}}</td>
+	</tr>
+	<tr class="d-flex">
+		<th class="col-2">Notes</th>
+		<td class="col-8">{{form.notes}} {{form.notes.error}}</td>
+	</tr>
+</table>

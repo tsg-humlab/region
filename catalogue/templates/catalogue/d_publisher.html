@@ -1,0 +1,63 @@
+{% extends "utilities/base.html" %}
+{% load getattribute %} 
+
+{% block head %}
+	<title>{{page_name}}</title>
+	{% include 'utilities/detail_style.html' %}
+{% endblock %}
+
+{% block content%}
+
+<div class="one-line">
+	<p class="category">Publisher</p>
+	<p class="title">{{instance.name}} 
+	<a class = "btn btn-link btn-sm ml-auto"
+		href ="{% url instance.edit_url instance.pk %}"
+		role="button"><i class="far fa-edit text-secondary"></i></a>
+	</p>
+</div>
+
+<p class="date">{{instance.dates}}</p>
+<hr>
+
+{% if instance.location_names %}
+	<span class="info-header">located in: </span>
+	{{instance.location_names}}
+	<br>
+	<br>
+{% endif %}
+
+{% if instance.persons %}
+	<span class="info-header">
+		managers: 
+	</span>
+	{% for person in instance.persons%}
+		<div> 
+				<a class="link-color"
+				href="{% url person.detail_url person.pk %}"
+				role="button">
+					{{person.full_name}} 
+				</a>&nbsp<small>{{person.life_concise}}</small>&nbsp
+		</div>
+	{%endfor%}
+	<br>
+{% endif %}
+
+<span class="info-header">publications:</span><br>
+{%for publication in instance.publications%}
+	<div>
+		<a class="link-color"
+		href="{% url publication.detail_url publication.pk %}"
+		role="button">
+			{{publication.title}}
+		</a>
+		&nbsp<small>{{publication.dates}}</small>
+	</div>
+{%endfor%}
+
+
+<style>
+</style>
+
+
+{% endblock %}

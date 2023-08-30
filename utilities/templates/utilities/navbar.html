@@ -1,0 +1,128 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light">
+  <a class="navbar-brand" href={% url 'utilities:list_view' 'Text' 'catalogue'%}>
+	Region
+  </a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" 
+	data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+	aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" 
+			role="button" data-toggle="dropdown" aria-haspopup="true" 
+			aria-expanded="false">
+          View
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href=
+			"{% url 'utilities:list_view' 'Text' 'catalogue' %}">text</a>
+          <a class="dropdown-item" href=
+			"{% url 'utilities:list_view' 'Publication' 'catalogue'%}">publication</a>
+          <a class="dropdown-item" href=
+			"{% url 'utilities:list_view' 'Periodical' 'catalogue' %}">periodical</a>
+          <a class="dropdown-item" href=
+			"{% url 'utilities:list_view' 'Publisher' 'catalogue' %}">publisher</a>
+          <a class="dropdown-item" href=
+			"{% url 'utilities:list_view' 'Illustration' 'catalogue' %}">
+			illustration</a>
+          <a class="dropdown-item" href=
+			"{% url 'utilities:list_view' 'Person' 'persons' %}">person</a>
+          <a class="dropdown-item" href=
+			"{% url 'utilities:list_view' 'Movement' 'persons' %}">movement</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href=
+			"{% url 'utilities:list_view' 'Location' 'locations' 100 %}">location</a>
+          <a class="dropdown-item" href=
+			"{% url 'locations:map_ll' %}">map</a>
+          <a class="dropdown-item" href=
+			"{% url 'locations:map_search' %}">map search</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href=
+			"{% url 'accounts:created_by_me_view' %}">created by me</a>
+          <a class="dropdown-item" href=
+			"{% url 'accounts:log_view' %}">log</a>
+          <a class="dropdown-item" href=
+			"{% url 'accounts:logs_view' %}">logs</a>
+          <a class="dropdown-item" href=
+			"{% url 'utilities:timeline' %}">timeline</a>
+          <a class="dropdown-item" href=
+			"{% url 'utilities:overview' %}">overview</a>
+        </div>
+      </li>
+
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Add
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href=
+			"{% url 'catalogue:add_text' %}">text</a>
+          <a class="dropdown-item" href=
+			"{% url 'catalogue:add_publication' %}">publication</a>
+          <a class="dropdown-item" href=
+			"{% url 'catalogue:add_publisher' %}">publisher</a>
+          <a class="dropdown-item" href=
+			"{% url 'catalogue:add_illustration' %}">illustration</a>
+          <a class="dropdown-item" href=
+			"{% url 'persons:add_person' %}">person</a>
+          <a class="dropdown-item" href=
+			"{% url 'persons:add_movement' %}">movement</a>
+          <a class="dropdown-item" href=
+			"{% url 'catalogue:add_periodical' %}">periodical</a>
+          <a class="dropdown-item" href=
+			"{% url 'locations:add_location' %}">location</a>
+        </div>
+      </li>
+
+
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#"></a>
+      </li>
+    </ul>
+
+	<ul class = "navbar-nav navbar-right">
+      {% if user.is_staff %}
+		<li class ="nav-item">
+			<a class="nav-link" href="{% url 'admin:index' %}">
+                admin
+			</a>
+		</li>
+      {% endif %}
+      {% if user.username %}
+		<li class ="nav-item">
+			<a class="nav-link" href="{% url 'utilities:add_comment' user.pk %}">
+				<i class="far fa-comments"></i></a>
+			</a>
+		</li>
+      {% endif %}
+	</ul>
+
+	<ul class = "navbar-nav navbar-right">
+		<li class ="nav-item">
+		  {% if user.username == '' %}
+			<a class="nav-link" href="{% url 'login' %}">
+			login<span class="sr-only">(current)</span></a>
+		  {% else %}
+			<a class="nav-link" href="{% url 'accounts:edit_profile' %}">
+			{{user.username}}<span class="sr-only">(current)</span></a>
+		  {% endif %}
+		</li>
+	</ul>
+	<ul class = "navbar-nav navbar-right">
+		<li class ="nav-item">
+		  {% if user.username == '' %}
+		  {% else %}
+			<a class="nav-link" href="{% url 'logout' %}">
+				<i class="fas fa-sign-out-alt"></i><span class="sr-only">(current)</span></a>
+		  {% endif %}
+		</li>
+	</ul>
+
+
+  </div>
+</nav>
+

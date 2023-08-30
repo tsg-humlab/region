@@ -1,0 +1,78 @@
+{% extends "utilities/base.html" %}
+
+{% block head %}
+	<title>{{page_name}}</title>
+{% endblock %}
+
+
+{% block content %}
+
+{% include 'utilities/list_search_bar.html' %}
+
+{% if publication_list %}
+
+
+<div class="d-flex">
+
+<table class="table">
+	<tr> 
+	<th><a href="?order_by=title,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">Title</a></th>
+	<th><a href="?order_by=form__name,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">Form</a></th>
+	<th>
+		<a href="?order_by=publisher__name,{{order}},{{direction}},{{query}}"
+		style="text-decoration:none;">Publisher</a></th>
+	<th>
+		<a href="?order_by=location__name,{{order}},{{direction}},{{query}}"
+		style="text-decoration:none;">Location</a></th>
+	<th><a href="?order_by=connection_count,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">#con.</a></th>
+	<th></th>
+	</tr>
+	{% for publication in publication_list %}
+	{% if publication.approved %}
+	<tr style="background:#c0edc0;">
+	{% elif publication.complete %}
+	<tr style="background:#fff494;">
+	{% elif publication.incomplete %}
+	<tr style="background:#ffb694;">
+	{% endif %}
+		<td>{{publication.title_exact}}</td>
+		<td>{{publication.form.name}}</td>
+		<td>{{publication.publisher_str}}</td>
+		<td>{{publication.location_str}}</td>
+		<td>{{publication.connection_count}}</td>
+		<td style="white-space:nowrap;">
+			<a class = "btn btn-link btn-sm ml-auto"
+				href ="{% url 'catalogue:delete' publication.pk 'Publication' %}"
+				role="button">
+					<i class="fa fa-trash text-secondary"></i>
+			</a>
+			<a class = "btn btn-link btn-sm ml-auto"
+				href ="{% url 'catalogue:edit_publication' publication.pk %}"
+				role="button">
+					<i class="far fa-edit text-secondary"></i>
+			</a>
+			<a class="btn btn-link btn-sm ml-auto" 
+				href="{% url publication.detail_url publication.pk %}"
+				role="button">
+				   <i class="fas fa-eye text-secondary"></i>
+			</a>
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+</div>
+
+{% else %}
+	<p>no publications are available</p>
+{% endif %}
+
+{% endblock content %}
+
+{% block right %}
+{% endblock right %}
+
+
+	<!-- <td>{{ attr|truncatechars:40}}</td> -->

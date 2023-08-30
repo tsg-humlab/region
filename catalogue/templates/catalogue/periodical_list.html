@@ -1,0 +1,71 @@
+{% extends "utilities/base.html" %}
+
+{% block head %}
+	<title>{{page_name}}</title>
+{% endblock %}
+
+
+{% block content %}
+{% include 'utilities/list_search_bar.html' %}
+
+{% if periodical_list %}
+
+<div class="d-flex">
+
+<table class="table">
+	<tr> 
+	<th><a href="?order_by=title,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">title</a></th>
+	<th><a href="?order_by=founded,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">founded</a></th>
+	<th><a href="?order_by=closure,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">closure</a></th>
+	<th><a href="?order_by=location,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">location</a></th>
+	<th><a href="?order_by=connection_count,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">#con.</a></th>
+	<th></th>
+	</tr>
+	{% for periodical in periodical_list %}
+	{% if periodical.approved %}
+	<tr style="background:#c0edc0;">
+	{% elif periodical.complete %}
+	<tr style="background:#fff494;">
+	{% elif periodical.incomplete %}
+	<tr style="background:#ffb694;">
+	{% endif %}
+		<td>{{periodical.title}}</td>
+		<td>{{periodical.founded}}</td>
+		<td>{{periodical.closue}}</td>
+		<td>{{periodical.location_str}}</td>
+		<td>{{periodical.connection_count}}</td>
+		<td style="white-space:nowrap;">
+			<a class = "btn btn-link btn-sm ml-auto"
+				href ="{% url 'catalogue:delete' periodical.pk 'Periodical' %}"
+				role="button">
+					<i class="fa fa-trash text-secondary"></i>
+			</a>
+			<a class = "btn btn-link btn-sm ml-auto"
+				href ="{% url 'catalogue:edit_periodical' periodical.pk %}"
+				role="button">
+					<i class="far fa-edit text-secondary"></i>
+			</a>
+			<a class="btn btn-link btn-sm ml-auto" 
+				href="{% url periodical.detail_url periodical.pk %}"
+				role="button">
+				   <i class="fas fa-eye text-secondary"></i>
+			</a>
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+</div>
+
+{% else %}
+	<p>no periodicals are available</p>
+{% endif %}
+
+{% endblock content %}
+
+
+	<!-- <td>{{ attr|truncatechars:40}}</td> -->

@@ -1,0 +1,171 @@
+{% extends "utilities/base.html" %}
+{% load getattribute %} 
+
+{% block head %}
+	<title>{{page_name}}</title>
+	{% include 'utilities/detail_style.html' %}
+{% endblock %}
+
+{% block content%}
+
+<p class="category">Publication</p>
+{% if instance.cover%}
+	<img class="cover-image"
+	src="{{instance.cover.url}}" 
+	alt="{{instance.cover.url}}" > 
+{% endif %}
+
+<p class="title">{{instance.title}}
+	<a class = "btn btn-link btn-sm ml-auto"
+		href ="{% url instance.edit_url instance.pk %}"
+		role="button"><i class="far fa-edit text-secondary"></i></a>
+</p>
+<p class="date">{{instance.date}}</p>
+<hr>
+
+{% if instance.form%}
+	<span class="info-header">form: </span>
+	{{instance.form}}
+	<br>
+{% endif %}
+{% if instance.location_names %}
+	<span class="info-header">location published: </span>
+	{{instance.location_names}}
+	<br>
+	<br>
+{% endif %}
+
+{% if instance.authors %}
+	{% if instance.translators %}
+		<span class="info-header">orginal authors:</span><br>
+	{% else %}
+		<span class="info-header">authors:</span><br>
+	{% endif %}
+		
+	{%for person in instance.authors%}
+		<div>
+			<a class="link-color"
+			href="{% url person.detail_url person.pk %}"
+			role="button">
+				{{person.full_name}}
+			</a>
+			</a>&nbsp<small>{{person.life_concise}}</small>&nbsp
+		</div>
+	{%endfor%}
+	<br>
+{% endif %}
+
+{% if instance.translators %}
+	<span class="info-header">translators:</span><br>
+		
+	{%for person in instance.translators%}
+		<div>
+			<a class="link-color"
+			href="{% url person.detail_url person.pk %}"
+			role="button">
+				{{person.full_name}}
+			</a>
+			</a>&nbsp<small>{{person.life_concise}}</small>&nbsp
+		</div>
+	{%endfor%}
+	<br>
+{% endif %}
+
+{% if instance.publishers %}
+	<span class="info-header">publishers:</span><br>
+	{%for publisher in instance.publishers%}
+		<div>
+			<a class="link-color"
+			href="{% url publisher.detail_url publisher.pk %}"
+			role="button">
+				{{publisher.name}}
+			</a>
+			&nbsp<small>{{publisher.dates}}</small>
+		</div>
+	{%endfor%}
+	<br>
+{% endif %}
+
+<span class="info-header">texts:</span><br>
+{%for text in instance.texts%}
+	<div>
+		<a class="link-color"
+		href="{% url text.detail_url text.pk %}"
+		role="button">
+			{{text.title}} 
+		</a>&nbsp
+		<small>
+			{{text.genre}}&nbsp
+			{% if text.start_page and text.end_page %}
+				(p. {{text.start_page}} - {{text.end_page}})&nbsp
+			{% endif %}
+		</small>
+	</div>
+{%endfor%}
+<br>
+{% if instance.reviews%}
+	<span class="info-header">reviewed by:</span><br>
+	{%for review in instance.reviews%}
+		<div>
+			<a class="link-color"
+			href="{% url review.detail_url review.pk %}"
+			role="button">
+				{{review.title}}
+			</a>&nbsp
+			<small>
+				({{review.dates}})
+			</small>
+		</div>
+	{%endfor%}
+	<br>
+{% endif %}
+
+{% if instance.illustrations %}
+	<span class="info-header">illustrations:</span><br>
+	{%for image in instance.illustrations %}
+		<div class="row">
+			<div class="col-1">
+				{% if image.url_image %}
+					<img class="small-image" 
+						src="{{image.url_image}}" 
+						alt="">
+				{% endif %}
+			</div>
+			<div class="col-11">
+				<a class="link-color image-caption"
+				href="{% url image.detail_url image.pk %}"
+				role="button">
+					{{image.caption}} 
+				</a>&nbsp<small>p. {{image.page}}</small>&nbsp
+			</div>
+		</div>
+	{%endfor%}
+{% endif %}
+
+<style>
+img {
+	display:block;
+	height:300px;
+	object-fit:cover;
+	border-radius:5px;
+	max-width:100%;
+	max-height:100%;
+	}
+
+.cover-image {
+	margin-left: auto;
+	margin-right:auto;
+}
+.small-image {
+	display:flex;
+	height:60px;
+	margin-top:3px;
+}
+.image-caption {
+	display: inline-block;
+	margin-top:20px;
+}
+
+</style>
+
+{% endblock %}

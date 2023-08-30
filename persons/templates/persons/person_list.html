@@ -1,0 +1,81 @@
+<!-- test view to print data in a table from model --> 
+{% extends "utilities/base.html" %}
+{% if person_list %}
+
+{% block content %}
+{% include 'utilities/list_search_bar.html' %}
+
+<div class="d-flex">
+
+<table class="table">
+	<tr> 
+	<th><a href="?order_by=first_name,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">First name</a></th>
+	<th><a href="?order_by=last_name,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">Last name</a></th>
+	<th><a href="?order_by=sex,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">Sex</a></th>
+	<th><a href="?order_by=birth_year,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">Born</a></th>
+	<th><a href="?order_by=death_year,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">Died</a></th>
+	<th><a href="?order_by=birth_place,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">Birth place</a></th>
+	<th><a href="?order_by=connection_count,{{order}},{{direction}},{{query}}" 
+		style="text-decoration:none;">#con.</a></th>
+	<th></th>
+	<!-- create header -->
+	</tr>
+	{% for person in person_list %}
+	{% if person.approved %}
+	<tr style="background:#c0edc0;">
+	{% elif person.complete %}
+	<tr style="background:#fff494;">
+	{% elif person.incomplete %}
+	<tr style="background:#ffb694;">
+	{% endif %}
+		<td>{{person.first_name|default:''}}</td>
+		<td>{{person.last_name|default:''}}</td>
+		<td>{{person.gender|default:''}}</td>
+		<td>{{person.birth_year|default:''}}</td>
+		<td>{{person.death_year|default:''}}</td>
+		<td>{{person.birth_place|default:''}}</td>
+		<td>{{person.connection_count}}</td>
+		<td style="white-space:nowrap;">
+			<a class = "btn btn-link btn-sm ml-auto"
+				href ="{% url 'persons:delete' person.pk 'Person' %}"
+				role="button">
+					<i class="fa fa-trash text-secondary"></i>
+			</a>
+			<a class = "btn btn-link btn-sm ml-auto"
+				href ="{% url 'persons:edit_person' person.pk %}"
+				role="button">
+					<i class="far fa-edit text-secondary"></i>
+			</a>
+			<a class="btn btn-link btn-sm ml-auto" 
+				href="{% url person.detail_url person.pk %}"
+				role="button">
+				   <i class="fas fa-eye text-secondary"></i>
+			</a>
+		</td>
+	</tr>
+	{% endfor %}
+</table>
+</div>
+
+{% endblock content %}
+
+{% else %}
+	<p>no persons are available</p>
+{% endif %}
+
+<!-- minimal style to make the table more readable -->
+<!-- <style> -->
+<!-- table { -->
+<!-- 	border-spacing: 20px 0; -->
+<!-- } -->
+<!-- th { -->
+<!-- 	color: blue; -->
+<!-- } -->
+<!-- </style> -->
+<!-- test -->
